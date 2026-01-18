@@ -1,0 +1,25 @@
+import { createContext, useState } from "react";
+
+
+
+export const userDataContext = createContext();
+
+function UserContext({ children }) {
+  const serverUrl = "http://localhost:8000";
+  const [userData, setUserData] = useState(null);
+  const value = {
+    serverUrl,
+    userData,
+    setUserData,
+  };
+  
+    return (
+    <div>
+      <userDataContext.Provider value={value}> 
+        {children} 
+      </userDataContext.Provider> 
+    </div>
+  );
+}
+
+export default UserContext;
