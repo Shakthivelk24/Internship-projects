@@ -19,8 +19,7 @@ export default function Header() {
   };
   useEffect(() => {
     handleCurrentUser();
-  }, []);
-  
+  }, []); 
   return (
     <header className="max-w-5xl mx-auto px-4 py-6 flex justify-between items-center">
       <Link
@@ -31,7 +30,7 @@ export default function Header() {
       </Link>
       <nav className="flex gap-4">
         {userData ? (
-          <Link >Create Post</Link>
+          <Link to="/create-post">Create Post</Link>
         ) : (
           <>
          <Link
