@@ -22,7 +22,7 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
-    const authToken = await token(newUser._id);
+    const authToken = await token(newUser._id,newUser.userName);
     res.cookie("token", authToken, {
       httpOnly: true,  
       maxAge: 10 * 24 * 60 * 60 * 1000, 
@@ -46,7 +46,7 @@ export const signIn = async (req, res) => {
     if (!match) {
       return res.status(400).json({ message: "Wrong credentials" });
     }
-    const authToken = await token(existingUser._id);
+    const authToken = await token(existingUser._id,existingUser.userName);
     res.cookie("token", authToken, {
       httpOnly: true,
       maxAge: 10 * 24 * 60 * 60 * 1000,
