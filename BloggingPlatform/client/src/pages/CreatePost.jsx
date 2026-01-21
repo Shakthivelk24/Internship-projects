@@ -3,6 +3,7 @@ import { userDataContext } from "../context/UserContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LuImageUp } from "react-icons/lu";
+import toast from "react-hot-toast";
 
 function CreatePost() {
   const {
@@ -40,10 +41,11 @@ function CreatePost() {
       setPost(res.data);
       console.log(post)
       setLoading(false);
-      navigate("/");
-      //navigate(`/post/${res.data._id}`);
+      toast.success("Post created successfully");
+      navigate("/mypost");
     } catch (err) {
       console.log("ERR:", err);
+      toast.error("Error creating post");
       setLoading(false);
     }
   };
