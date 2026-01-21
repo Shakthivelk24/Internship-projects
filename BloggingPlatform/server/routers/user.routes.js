@@ -17,7 +17,8 @@ userRoutes.get("/myposts", isAuth, getUserPosts);
 userRoutes.get("/post/:id", isAuth ,getThePostByID);
 userRoutes.put("/editpost/:id", isAuth, multer.single("postImage"), updatePostByID);
 userRoutes.delete("/deletepost/:id", isAuth, deletePostByID);
-userRoutes.get("/allposts", getAllPosts);
+userRoutes.get("/allposts", isAuth, getAllPosts);
+userRoutes.get("/allposts/public", getAllPosts); // Public route to get all posts without authentication
 
 
 export default userRoutes;
