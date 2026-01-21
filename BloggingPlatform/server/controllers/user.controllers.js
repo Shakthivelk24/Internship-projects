@@ -1,6 +1,7 @@
 import User from "../models/user.models.js";
 import Post from "../models/post.models.js";
 import uploadOnCloudinary from "../config/cloudinary.js";
+import mongoose from "mongoose";
 
 export const getCurrentUser = async (req, res) => {
   try {
@@ -104,10 +105,10 @@ export const getAllPosts = async (req, res) => {
 
     // If user is logged in, exclude his own posts
     if (req.userId) {
-      query = { ownerId: { $ne: req.userId } };
+       query = { ownerId: { $ne: new mongoose.Types.ObjectId(req.userId) } };
     }
 
-    const posts = await Post.find(query);
+    const posts = await Post.find(query).sort({ createdAt: -1 }); // Sort by newest first
 
     if (!posts || posts.length === 0) {
       return res.status(404).json({ message: "No posts found" });
