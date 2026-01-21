@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userDataContext } from "../context/UserContext.jsx";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 
 export default function RegisterPage(){
@@ -20,10 +21,13 @@ export default function RegisterPage(){
         }, { withCredentials: true });
         setLoading(false);
         setUserData(res.data);
+        toast.success("Registration Successful");
         navigate("/");
       } catch (error) {
         setLoading(false);
-        console.log("Signup failed", error);
+        const msg = error.response?.data?.message || "Something went wrong";
+        toast.error(msg);
+        console.log("Signup failed", msg);
       }
     };
     return (
