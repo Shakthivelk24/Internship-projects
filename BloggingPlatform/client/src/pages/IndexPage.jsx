@@ -1,11 +1,9 @@
-import Post from "../components/Post";
+import AllPost from "./AllPost";
 
 export default function IndexPage() {
     return (
         <>
-        <Post/>
-        <Post/>
-        <Post/>
+        <AllPost/>
         </>
     )
 }
