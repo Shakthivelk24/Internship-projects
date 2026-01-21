@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
 import { userDataContext } from "../context/UserContext";
+import toast from "react-hot-toast";
 
 export default function UserPost({ post }) {
     const navigate = useNavigate();
@@ -11,9 +12,10 @@ export default function UserPost({ post }) {
            const response = await axios.delete(`${serverUrl}/api/user/deletepost/${id}`, {
             withCredentials: true,
            });
-           console.log("Delete response:", response.data);
+           toast.success("Post deleted successfully");
            navigate(0); // Refresh the page to reflect the deleted post
         } catch (error) {
+            toast.error("Error deleting post");
             console.log("Error deleting post:", error.message);
         }
     }
@@ -37,7 +39,7 @@ return (
                     <div className="flex flex-col">
                         <span className="font-semibold text-gray-800">{post.ownerName}</span>
                         <time className="text-xs text-gray-500">
-                            {new Date(post.createdAt).toLocaleString()}
+                            {new Date(post.updatedAt).toLocaleString()}
                         </time>
                     </div>
                 </div>
