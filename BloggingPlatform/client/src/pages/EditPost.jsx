@@ -3,6 +3,7 @@ import { userDataContext } from "../context/UserContext.jsx";
 import { useNavigate,useParams } from "react-router-dom";
 import { LuImageUp } from "react-icons/lu";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function EditPost() {
   const { id } = useParams();
@@ -35,21 +36,19 @@ function EditPost() {
         });
         const data = response.data;
         setEditPost(data);
-        console.log("Fetched Post by ID:", data);
       } catch (error) {
         console.log("Error fetching post by ID:", error.message);
       }
     };
     fetchPostByID();
   }, []);
-
   useEffect(() => {
   if (editPost && editPost.title) {
      setTitle(editPost.title);
-    setContent(editPost.content);
+     setContent(editPost.content);
   }
  }, [editPost]);
-  const handleSave = async () => { 
+ const handleSave = async () => { 
       setLoading(true);
       try {
       const formData = new FormData();
@@ -60,13 +59,14 @@ function EditPost() {
         withCredentials: true,
       });
       setLoading(false);
-      navigate("/");
+      toast.success("Post updated successfully");
+      navigate("/mypost");
       } catch (error) {
         console.log("Error updating post:", error.message);
         setLoading(false);
+        toast.error("Error updating post");
       }
   }
-
   return (
     <div className="flex flex-col items-center justify-center gap-4 mt-5">
       <div
