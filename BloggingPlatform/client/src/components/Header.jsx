@@ -3,6 +3,7 @@ import { userDataContext } from "../context/UserContext.jsx";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function Header() {
   const { userData, setUserData, serverUrl } = useContext(userDataContext);
@@ -14,8 +15,10 @@ export default function Header() {
       });
       navigate("/");
       setUserData(null);
+      toast.success(result.data.message);
     } catch (error) {
       console.log("Error in logging out :", error);
+      toast.error("Error in logging out");
     }
   };
   return (
