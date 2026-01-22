@@ -119,3 +119,39 @@ export const getAllPosts = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+export const getSearchedPosts = async (req, res) => {
+  try {
+    const search = req.query.search || "";
+    const page = parseInt(req.query.page) || 1; // default to page 1
+    const limit = 5; // posts per page
+    const skip = (page - 1) * limit; // calculate how many posts to skip
+
+    const query = {
+      title: { $regex: search, $options: "i" },
+    };
+
+    // only exclude own posts when userId really exists
+    if (req.userId && req.userId !== "undefined") {
+      query.ownerId = { $ne: new mongoose.Types.ObjectId(req.userId) };
+    }
+
+    const total = await Post.countDocuments(query);
+
+    const posts = await Post.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).json({
+      posts,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server issue" });
+  }
+};
+
+
+
