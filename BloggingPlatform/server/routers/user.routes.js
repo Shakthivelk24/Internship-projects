@@ -8,6 +8,7 @@ import {getThePostByID} from "../controllers/user.controllers.js";
 import {updatePostByID} from "../controllers/user.controllers.js";
 import {deletePostByID} from "../controllers/user.controllers.js";
 import {getAllPosts} from "../controllers/user.controllers.js";
+import {getSearchedPosts} from "../controllers/user.controllers.js";
 
 const userRoutes = express.Router();
 
@@ -17,8 +18,10 @@ userRoutes.get("/myposts", isAuth, getUserPosts);
 userRoutes.get("/post/:id", isAuth ,getThePostByID);
 userRoutes.put("/editpost/:id", isAuth, multer.single("postImage"), updatePostByID);
 userRoutes.delete("/deletepost/:id", isAuth, deletePostByID);
-userRoutes.get("/allposts", isAuth, getAllPosts);
+userRoutes.get("/allposts", isAuth, getAllPosts);// Protected route to get all posts with authentication
 userRoutes.get("/allposts/public", getAllPosts); // Public route to get all posts without authentication
+userRoutes.get("/search/public", getSearchedPosts);// Public route to search posts without authentication
+userRoutes.get("/search",isAuth,getSearchedPosts) // Protected route to search posts with authentication
 
 
 export default userRoutes;
