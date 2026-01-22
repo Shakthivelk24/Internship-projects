@@ -6,6 +6,7 @@ export const userDataContext = createContext();
 function UserContext({ children }) {
   const serverUrl = "http://localhost:8000";
   const [userData, setUserData] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
   const [frontendImage, setFrontendImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [backendImage, setBackendImage] = useState(null);
@@ -16,9 +17,11 @@ function UserContext({ children }) {
         withCredentials: true,
       });
       setUserData(result.data);
+      setLoadingUser(false);
       console.log("Current User Data:", result.data);
     } catch (error) {
       console.error("Error fetching current user data:", error);
+      setLoadingUser(false);
     }
   };
   useEffect(() => {
@@ -28,6 +31,7 @@ function UserContext({ children }) {
   const value = {
     serverUrl,
     userData,
+    loadingUser,
     setUserData,
     frontendImage,
     setFrontendImage,
